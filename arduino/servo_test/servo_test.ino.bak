@@ -1,0 +1,170 @@
+#include <Servo.h>
+
+// ==========================================
+// MOTOR ANOMALY DETECTION - HARDWARE TEST
+// Board: Arduino Uno R3
+// ==========================================
+
+// Servo
+const int SERVO_PIN = 9;
+Servo motorServo;
+
+// Analog sensor pins
+const int ACS_PIN   = A0;
+const int VOLT_PIN  = A1;
+const int MIC_PIN   = A2;
+
+const int ACC_X_PIN = A3;
+const int ACC_Y_PIN = A4;
+const int ACC_Z_PIN = A5;
+
+// ADC reference (nominal Uno USB 5V)
+const float ADC_REF_V = 5.0;
+
+// Servo movement sequence
+const int servoAngles[] = {30, 90, 150, 90};
+const int angleCount = 4;
+
+int angleIndex = 0;
+int currentAngle = 30;
+
+unsigned long lastServoMove = 0;
+unsigned long lastPrint = 0;
+unsigned long sequenceNumber = 0;
+
+const unsigned long SERVO_INTERVAL = 1500;
+const unsigned long PRINT_INTERVAL = 100;
+
+// Microphone sampling
+const int MIC_SAMPLES = 64;
+const int MIC_SAMPLE_DELAY_US = 500;
+
+void moveServo() {
+  currentAngle = servoAngles[angleIndex];
+
+  motorServo.write(currentAngle);
+
+  angleIndex++;
+  if (angleIndex >= angleCount) {
+    angleIndex = 0;
+  }
+}
+
+int readAverage(int pin, int samples = 5) {
+  long total = 0;
+
+  for (int i = 0; i < samples; i++) {
+    total += analogRead(pin);
+  }
+
+  return total / samples;
+}
+
+void readMicrophone(float &audioRMS, int &audioPeakToPeak) {
+  long sum = 0;
+  int minimumValue = 1023;
+  int maximumValue = 0;
+
+  int readings[MIC_SAMPLES];
+
+  for (int i = 0; i < MIC_SAMPLES; i++) {
+    int value = analogRead(MIC_PIN);
+
+    readings[i] = value;
+    sum += value;
+
+    if (value < minimumValue) minimumValue = value;
+    if (value > maximumValue) maximumValue = value;
+
+    delayMicroseconds(MIC_SAMPLE_DELAY_US);
+  }
+
+  float mean = (float)sum / MIC_SAMPLES;
+  float squaredSum = 0;
+
+  for (int i = 0; i < MIC_SAMPLES; i++) {
+    float difference = readings[i] - mean;
+    squaredSum += difference * difference;
+  }
+
+  audioRMS = sqrt(squaredSum / MIC_SAMPLES);
+  audioPeakToPeak = maximumValue - minimumValue;
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  motorServo.attach(SERVO_PIN);
+  motorServo.write(90);
+
+  delay(1000);
+
+  Serial.println("timestamp_ms,sequence,servo_angle,"
+                 "accel_x,accel_y,accel_z,"
+                 "acs_raw,acs_voltage,"
+                 "voltage_raw,voltage_sensor_output_v,"
+                 "mic_rms,mic_peak_to_peak");
+
+  moveServo();
+  lastServoMove = millis();
+}
+
+void loop() {
+  unsigned long now = millis();
+
+  // Move servo every 1.5 seconds
+  if (now - lastServoMove >= SERVO_INTERVAL) {
+    moveServo();
+    lastServoMove = now;
+  }
+
+  // Collect and print sensor data
+  if (now - lastPrint >= PRINT_INTERVAL) {
+
+    int accelX = readAverage(ACC_X_PIN);
+    int accelY = readAverage(ACC_Y_PIN);
+    int accelZ = readAverage(ACC_Z_PIN);
+
+    int acsRaw = readAverage(ACS_PIN);
+    float acsVoltage = acsRaw * ADC_REF_V / 1023.0;
+
+    int voltageRaw = readAverage(VOLT_PIN);
+    float voltageSensorOutput =
+        voltageRaw * ADC_REF_V / 1023.0;
+
+    float micRMS = 0;
+    int micPeakToPeak = 0;
+
+    readMicrophone(micRMS, micPeakToPeak);
+
+    Serial.print(now);
+    Serial.print(",");
+    Serial.print(sequenceNumber++);
+    Serial.print(",");
+    Serial.print(currentAngle);
+
+    Serial.print(",");
+    Serial.print(accelX);
+    Serial.print(",");
+    Serial.print(accelY);
+    Serial.print(",");
+    Serial.print(accelZ);
+
+    Serial.print(",");
+    Serial.print(acsRaw);
+    Serial.print(",");
+    Serial.print(acsVoltage, 3);
+
+    Serial.print(",");
+    Serial.print(voltageRaw);
+    Serial.print(",");
+    Serial.print(voltageSensorOutput, 3);
+
+    Serial.print(",");
+    Serial.print(micRMS, 2);
+    Serial.print(",");
+    Serial.println(micPeakToPeak);
+
+    lastPrint = millis();
+  }
+}

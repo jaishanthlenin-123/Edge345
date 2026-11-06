@@ -1,0 +1,14 @@
+[Unit]
+Description=SG90 Servo Motor Condition Monitoring and Anomaly Detection Service
+After=network.target
+
+[Service]
+Type=simple
+User=forge
+WorkingDirectory=/home/forge/Downloads/Edge 345
+ExecStart=/usr/bin/python3 /home/forge/Downloads/Edge 345/raspberry_pi/dashboard/server.py 8000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

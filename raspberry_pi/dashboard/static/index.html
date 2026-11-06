@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servo Motor Anomaly Detection System - Raspberry Pi 5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="header">
+    <div class="title-container">
+      <h1>SERVO MOTOR CONDITION MONITORING</h1>
+      <p>Edge AI & Anomaly Detection System | Arduino Uno R3 + Raspberry Pi 5</p>
+    </div>
+    <div class="status-pills">
+      <div id="pill-arduino" class="pill pill-red">● Arduino Disconnected</div>
+      <div id="pill-rpi" class="pill pill-green">● Pi 5 Online</div>
+      <div id="pill-ml" class="pill pill-blue">Model: Statistical/IForest</div>
+    </div>
+  </header>
+
+  <!-- Real-Time Anomaly Status Banner -->
+  <section id="anomaly-banner" class="anomaly-banner banner-normal">
+    <div class="anomaly-state">
+      <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Operating State</span>
+      <h2 id="anomaly-status-text">NORMAL OPERATION</h2>
+      <p id="anomaly-drivers" style="font-size: 0.8rem; color: var(--text-muted);">All multivariate sensor parameters within nominal baseline</p>
+    </div>
+    <div class="score-container">
+      <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600;">
+        <span>Anomaly Score</span>
+        <span id="anomaly-score-val">0.00</span>
+      </div>
+      <div class="score-bar-bg">
+        <div id="anomaly-score-bar" class="score-bar-fill"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Metrics Cards Grid -->
+  <section class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Commanded Position</div>
+      <div id="val-angle" class="metric-val">90°</div>
+      <div class="metric-sub">Target D9 Sequence</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Supply Voltage</div>
+      <div id="val-voltage" class="metric-val" style="color: var(--accent-cyan);">0.00 V</div>
+      <div class="metric-sub">0–25V Module (A1)</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Motor Current</div>
+      <div id="val-current" class="metric-val" style="color: var(--accent-amber);">0.000 A</div>
+      <div class="metric-sub">ACS712 Series (A0)</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Vibration (X, Y, Z)</div>
+      <div id="val-accel" class="metric-val" style="font-size: 1.25rem;">(350, 350, 350)</div>
+      <div class="metric-sub">Analog Accelerometer (A3-A5)</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Acoustic Activity</div>
+      <div id="val-sound" class="metric-val" style="font-size: 1.25rem;">0 / 0</div>
+      <div class="metric-sub">RMS / Peak-to-Peak (A2)</div>
+    </div>
+  </section>
+
+  <!-- Live Waveform Charts Grid -->
+  <section class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-header">
+        <span>ELECTRICAL TELEMETRY (Current & Voltage)</span>
+        <span style="color: var(--text-muted); font-size: 0.75rem;">Cyan: Volts | Amber: Amps</span>
+      </div>
+      <canvas id="chart-electrical"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <span>VIBRATION TELEMETRY (X, Y, Z Acceleration)</span>
+        <span style="color: var(--text-muted); font-size: 0.75rem;">ADC Counts (0-1023)</span>
+      </div>
+      <canvas id="chart-vibration"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <span>ACOUSTIC AMPLITUDE (MAX9814 Audio P2P)</span>
+        <span style="color: var(--text-muted); font-size: 0.75rem;">Burst Peak-to-Peak Energy</span>
+      </div>
+      <canvas id="chart-acoustic"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <span>SERVO MOTION PROFILE (Commanded Angle)</span>
+        <span style="color: var(--text-muted); font-size: 0.75rem;">Degrees (30° - 150°)</span>
+      </div>
+      <canvas id="chart-angle"></canvas>
+    </div>
+  </section>
+
+  <!-- Lower Panel: Dataset Collection & Alert Log -->
+  <section class="bottom-grid">
+    <!-- Recording Session Manager -->
+    <div class="card">
+      <h3>Dataset Recording</h3>
+      <div class="input-group">
+        <label for="session-name">Session Name</label>
+        <input type="text" id="session-name" value="session_01">
+      </div>
+      <div class="input-group">
+        <label for="session-mode">Session Mode</label>
+        <select id="session-mode">
+          <option value="normal">Normal Baseline (Unloaded)</option>
+          <option value="test">Test Evaluation</option>
+          <option value="anomaly">Experimental Anomaly</option>
+        </select>
+      </div>
+      <div style="margin-top: 1rem;">
+        <button id="btn-record" class="btn btn-start" onclick="toggleRecording()">Start Recording</button>
+      </div>
+      <div id="recording-status" style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);">
+        Status: Idle
+      </div>
+    </div>
+
+    <!-- Live Anomaly & Safety Alert History -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+        <h3>Alert History & Fault Events</h3>
+        <span id="alert-count" style="font-size: 0.75rem; color: var(--text-muted);">0 Events</span>
+      </div>
+      <div id="alert-list" class="alert-list">
+        <div style="color: var(--text-muted); padding: 0.5rem;">No active alerts. System healthy.</div>
+      </div>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
