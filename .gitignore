@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C / C++ / Arduino build artifacts
+*.hex
+*.elf
+*.bin
+build/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Distribution / packaging
+dist/
+eggs/
+*.egg-info/
+
+# Credentials and secrets
+.env
+*.key
+*.pem
+secrets.yaml
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Large raw video captures (if any exceed git limits)
+evidence/experiment_videos/*.mp4
+evidence/experiment_videos/*.avi
