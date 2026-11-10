@@ -185,7 +185,17 @@ sudo systemctl start servo-monitoring.service
 ```
 ---
 
+## Photos & Videos Evidence – M4
+
+All practical demonstration photographs, hardware images, screenshots and video recordings documenting the M4 Monitor and Connect milestone are organized in the following Google Drive folder.
+
+[Open M4 Photos & Videos Evidence Folder](https://drive.google.com/drive/folders/1Rb_cH2TGkXbIfMN6ufUxH2sYoraduzOa?usp=sharing)
+
+---
+
 ## 8. Milestone 4 (M4) Assessment Evidence Index (20 Marks)
+
+- **Photos & Videos Evidence Folder (Google Drive):** [Open M4 Photos & Videos Evidence Folder](https://drive.google.com/drive/folders/1Rb_cH2TGkXbIfMN6ufUxH2sYoraduzOa?usp=sharing)
 
 The project has been systematically audited, verified, and organized into eight dedicated evidence repositories matching the M4 assessment criteria:
 

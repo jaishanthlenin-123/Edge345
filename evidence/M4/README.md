@@ -7,6 +7,14 @@
 
 ---
 
+## Photos & Videos Evidence – M4
+
+All practical demonstration photographs, hardware images, screenshots and video recordings documenting the M4 Monitor and Connect milestone are organized in the following Google Drive folder.
+
+[Open M4 Photos & Videos Evidence Folder](https://drive.google.com/drive/folders/1Rb_cH2TGkXbIfMN6ufUxH2sYoraduzOa?usp=sharing)
+
+---
+
 ## 1. Assessment Category Evidence Directory & Mark Allocations
 
 The repository organizes all verification materials, test results, configurations, raw logs, datasets, photos, and video demonstrations into eight dedicated, structured evidence folders matching the assessment spreadsheet:

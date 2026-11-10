@@ -4,6 +4,7 @@
 **System Architecture:** Arduino Uno R3 (Acquisition & Actuation) + Raspberry Pi 5 (Edge ML, Database, REST API, Live Dashboard, Secure MQTT, Industrial Modbus TCP)  
 **Hardware Pin Plan:** Servo PWM: `D9` | ACS712: `A0` | Voltage Sensor: `A1` | MAX9814: `A2` | Accelerometer X, Y, Z: `A3, A4, A5`
 **Milestone 4 Status:** 🟢 COMPLETE & VERIFIED (25/25 Pytest Tests Passing, 8 Evidence Categories Organized)
+**Photos & Videos Evidence – M4 (Google Drive):** [Open M4 Photos & Videos Evidence Folder](https://drive.google.com/drive/folders/1Rb_cH2TGkXbIfMN6ufUxH2sYoraduzOa?usp=sharing)
 
 ---
 
