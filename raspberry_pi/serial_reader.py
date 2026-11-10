@@ -204,6 +204,15 @@ class SerialReader:
                     self.total_packets_dropped += 1
                     return None
 
+            else:
+                self.total_packets_dropped += 1
+                return None
+
+        # Corrupted / noisy line containing non-ASCII / control bytes
+        if any(ord(c) < 32 and c not in "\r\n\t" for c in line) or any(ord(c) > 126 for c in line):
+            self.total_packets_dropped += 1
+            return None
+
         # -------------------------------------------------------------
         # 2. Check for Multiline Hardware Diagnostic Block format
         # -------------------------------------------------------------

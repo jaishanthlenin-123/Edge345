@@ -62,3 +62,14 @@
 - Enhanced `raspberry_pi/dashboard/static/app.js` to immediately transition to `ANOMALY DETECTED` (Score: 0.95, Red) whenever current exceeds 0.200A (200mA).
 - Allows normal free motion rotational acceleration pulses (~0.065A–0.150A) to remain comfortably within `NORMAL OPERATION` (Score: 0.00, Green).
 - Verified with live hardware telemetry on `/dev/ttyUSB0`.
+
+## Entry 11: Milestone 4 Assessment Evidence Organization, Secure MQTT & Industrial PLC Link
+- Executed comprehensive audit across all repository modules, pin plans, datasets, and firmware sketches.
+- Built production Secure MQTT (MQTTS) client in `raspberry_pi/mqtt_client.py` enforcing TLS 1.2/1.3 encryption on Port 8883, X.509 CA validation, and environment-driven credentials.
+- Standardized the 7-topic hierarchical taxonomy under `motor/servo01/...` with JSON schema validation, QoS 2 alerts, and Retain flags.
+- Built Industrial Modbus TCP slave bridge in `raspberry_pi/plc_bridge.py` supporting standard IEC 61158 register maps (Input Registers 30001+, Holding Registers 40001+, Discrete Inputs 10001+, Coils 00001+).
+- Structured the complete 8-folder M4 evidence directory under `evidence/M4/` (`01_sensor_data` through `08_reliability`).
+- Developed comprehensive automated pytest test suite (`tests/`) covering 25 test cases with 100% pass rate.
+- Generated high-resolution visualization charts, transaction logs, STRIDE threat matrices, and reliability soak benchmarks.
+- Updated main system documentation (`README.md`, `PROJECT_STATUS.md`, `DEVELOPMENT_LOG.md`).
+

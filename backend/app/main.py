@@ -107,6 +107,22 @@ if FASTAPI_AVAILABLE:
             "model_type": ENGINE.model.model_type,
             "metadata": ENGINE.model.metadata
         }
+
+    @app.get("/api/plc/status")
+    def get_plc_status():
+        return {
+            "plc_enabled": ENGINE.system_status.get("plc_enabled", False),
+            "commanded_angle": ENGINE.plc_bridge.get_commanded_angle() if ENGINE.plc_bridge else 90,
+            "emergency_stop": ENGINE.plc_bridge.get_emergency_stop() if ENGINE.plc_bridge else False
+        }
+
+    @app.get("/api/mqtt/status")
+    def get_mqtt_status():
+        return {
+            "mqtt_connected": ENGINE.mqtt_client.is_connected if ENGINE.mqtt_client else False,
+            "published_messages": ENGINE.mqtt_client.published_messages_count if ENGINE.mqtt_client else 0,
+            "broker": getattr(ENGINE.mqtt_client, "broker_host", "none") if ENGINE.mqtt_client else "none"
+        }
 else:
     # Fallback explanation if fastapi is not installed
     app = None

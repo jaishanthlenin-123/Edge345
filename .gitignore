@@ -23,7 +23,12 @@ eggs/
 .env
 *.key
 *.pem
+*.crt
+*.pfx
+*.p12
+certs/
 secrets.yaml
+.pytest_cache/
 
 # System files
 .DS_Store

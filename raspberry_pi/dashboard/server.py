@@ -71,6 +71,7 @@ class TelemetryEngine:
             except Exception as e:
                 print(f"[MODEL] Could not load saved model ({e}). Using baseline detector.")
 
+        # Singleton engine instance
         self.latest_record: Dict[str, Any] = {
             "host_timestamp": "",
             "timestamp_ms": 0,
@@ -101,8 +102,34 @@ class TelemetryEngine:
             "active_session_id": None,
             "active_session_name": None,
             "recording_count": 0,
-            "uptime_seconds": 0
+            "uptime_seconds": 0,
+            "plc_enabled": False,
+            "mqtt_connected": False
         }
+
+        # Initialize Industrial PLC Modbus bridge
+        self.plc_bridge = None
+        try:
+            from raspberry_pi.plc_bridge import ModbusPLCBridge
+            self.plc_bridge = ModbusPLCBridge()
+            self.plc_bridge.start_server_background()
+            self.system_status["plc_enabled"] = True
+            print(f"[PLC] Industrial Modbus TCP Bridge running on port {self.plc_bridge.port}")
+        except Exception as e:
+            print(f"[PLC] Modbus TCP Bridge not active: {e}")
+
+        # Initialize Secure MQTT client
+        self.mqtt_client = None
+        try:
+            from raspberry_pi.mqtt_client import SecureMQTTClient
+            self.mqtt_client = SecureMQTTClient()
+            if self.mqtt_client.connect(timeout_s=1.0):
+                self.system_status["mqtt_connected"] = True
+                print("[MQTT] Secure MQTT client connected")
+            else:
+                print("[MQTT] Secure MQTT broker not reachable at startup; daemon will reconnect")
+        except Exception as e:
+            print(f"[MQTT] Secure MQTT not active: {e}")
 
         self.start_time = time.time()
         self.active_session_id: Optional[str] = None
@@ -187,6 +214,21 @@ class TelemetryEngine:
 
                 self.latest_record = record
                 self.system_status["total_packets"] = self.reader.total_packets_received
+
+                # Sync to Industrial Modbus PLC Bridge
+                if self.plc_bridge:
+                    try:
+                        self.plc_bridge.update_from_telemetry(record, self.latest_prediction)
+                    except Exception:
+                        pass
+
+                # Publish to Secure MQTT Topics
+                if self.mqtt_client and self.mqtt_client.is_connected:
+                    try:
+                        self.mqtt_client.publish_telemetry_frame(record, self.latest_prediction)
+                        self.system_status["mqtt_connected"] = True
+                    except Exception:
+                        self.system_status["mqtt_connected"] = False
 
                 # Database batch insertion
                 db_buffer.append(record)
@@ -281,6 +323,22 @@ class DashboardRequestHandler(BaseHTTPRequestHandler):
         elif path == "/api/anomalies":
             alerts = get_recent_alerts(limit=30)
             self._send_json(alerts)
+            return
+
+        elif path == "/api/plc/status":
+            self._send_json({
+                "plc_enabled": ENGINE.system_status["plc_enabled"],
+                "commanded_angle": ENGINE.plc_bridge.get_commanded_angle() if ENGINE.plc_bridge else 90,
+                "emergency_stop": ENGINE.plc_bridge.get_emergency_stop() if ENGINE.plc_bridge else False
+            })
+            return
+
+        elif path == "/api/mqtt/status":
+            self._send_json({
+                "mqtt_connected": ENGINE.mqtt_client.is_connected if ENGINE.mqtt_client else False,
+                "published_messages": ENGINE.mqtt_client.published_messages_count if ENGINE.mqtt_client else 0,
+                "broker": getattr(ENGINE.mqtt_client, "broker_host", "none") if ENGINE.mqtt_client else "none"
+            })
             return
 
         elif path == "/api/health":
