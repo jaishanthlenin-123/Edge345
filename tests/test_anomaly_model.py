@@ -115,3 +115,4 @@ class TestAnomalyDetectionPipeline:
         loaded = AnomalyDetectionModel.load(prod_model_pkl)
         assert loaded.is_trained is True
         assert len(loaded.baseline_stats) == 21
+

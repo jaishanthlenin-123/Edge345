@@ -102,3 +102,4 @@ The test verifies:
 
 ## 9. Remaining Limitations
 - Payload format uses lightweight UTF-8 JSON. For ultra-low bandwidth satellite or cellular IoT links, binary formats (Protocol Buffers or CBOR) could provide further payload size reduction; however, JSON was chosen for broad compatibility with web frontends, Node-RED, and standard MQTT dashboards.
+

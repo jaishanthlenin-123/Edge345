@@ -105,3 +105,4 @@ class TestSecureMQTT:
         assert client.connection_error is not None
         # Disconnect cleanup should not throw
         client.disconnect()
+

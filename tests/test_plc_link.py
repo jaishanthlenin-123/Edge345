@@ -115,3 +115,4 @@ class TestPLCModbusLink:
         assert self.bridge.get_emergency_stop() is False, "Emergency stop should be cleared"
 
         client.disconnect()
+

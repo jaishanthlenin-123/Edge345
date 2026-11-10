@@ -94,3 +94,4 @@ The test verifies four critical security dimensions:
 ## 9. Remaining Limitations
 - In local development environments without an active Mosquitto broker daemon running on port 8883, the client cleanly falls back to non-blocking offline retry mode while the HTTP dashboard and SQLite logging remain fully operational.
 - For complete hardware-in-the-loop broker validation on Raspberry Pi, Mosquitto must be installed (`sudo apt install mosquitto mosquitto-clients`) and certificates generated using `generate_x509_certificates.sh`.
+

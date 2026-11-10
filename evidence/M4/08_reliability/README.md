@@ -101,3 +101,4 @@ The system incorporates comprehensive fault-tolerant mechanisms across both soft
 ## 9. Remaining Limitations
 - If the Arduino Uno hardware itself suffers a permanent catastrophic electrical failure (e.g., overvoltage destroying the ATmega328P ADC), software auto-reconnection will continually attempt discovery; an external hardware watchdog or power-cycling relay would be required for full hardware reset.
 - SQLite concurrent write access is handled through transaction serialization; for distributed multi-node telemetry clusters, migration to a distributed time-series database (e.g. TimescaleDB or InfluxDB) would be recommended.
+

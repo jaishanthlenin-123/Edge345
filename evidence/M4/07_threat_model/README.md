@@ -88,3 +88,4 @@ The threat model evaluates the system across three architectural trust boundarie
 ## 9. Remaining Limitations
 - USB serial connection between Arduino Uno and Raspberry Pi lacks hardware-level cryptographic message authentication codes (HMACs) due to ATmega328P computational limits; security relies on physical containment within a locked industrial enclosure.
 - For public cloud deployments (e.g. AWS IoT Core or Azure IoT Hub), device certificate provisioning should use a hardware secure element (e.g., ATECC608A on Raspberry Pi).
+

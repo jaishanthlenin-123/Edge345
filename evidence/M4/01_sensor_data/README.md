@@ -38,20 +38,90 @@ Every 100ms (10 Hz), the Arduino emits one standardized line terminated by `\r\n
 
 ---
 
-## 5. Evidence Included
-- **Sensor Waveform Multi-Panel Visualizations:**  
-  [`screenshots/sensor_waveforms_plot.png`](screenshots/sensor_waveforms_plot.png)  
-  *Depicts synchronous time-series waveforms for Commanded Angle, Current (A), Voltage (V), 3-Axis Accelerometer raw ADC, and Microphone Acoustic Energy.*
+## 5. Evidence Inventory & Mapping
+
+The following 10 media items directly support Category 01 assessment, capturing real hardware configuration, developer test execution, live console telemetry, and serial data streams:
+
+| Uploaded Media Name | Target Repository File Path | Asset Type | Description & Technical Observation |
+|---|---|:---:|---|
+| `me_working_photo.jpeg` | [`screenshots/me_working_photo.jpeg`](screenshots/me_working_photo.jpeg) | Photo | Developer actively testing and calibrating the Arduino Uno edge sensor hardware on the workbench. |
+| `me_working_photo2.jpeg` | [`screenshots/me_working_photo2.jpeg`](screenshots/me_working_photo2.jpeg) | Photo | Developer inspecting live telemetry streams and validating sensor connections during active bench tests. |
+| `sensor_values shown in terminal.jpeg` | [`screenshots/sensor_values_shown_in_terminal.jpeg`](screenshots/sensor_values_shown_in_terminal.jpeg) | Photo | Raspberry Pi console showing live 10-field CSV telemetry rows arriving over serial from Arduino. |
+| `sensor_values shown in terminall.jpeg` | [`screenshots/sensor_values_shown_in_terminall.jpeg`](screenshots/sensor_values_shown_in_terminall.jpeg) | Photo | Secondary console capture verifying uninterrupted serial telemetry ingestion and validation. |
+| `Dashboard.jpeg` | [`screenshots/dashboard_live_telemetry.jpeg`](screenshots/dashboard_live_telemetry.jpeg) | Photo | Live Web Monitoring Dashboard displaying telemetry gauges: Angle (30°), Voltage (1.44V), Current (0.303A), Vibration (MPU6050 axes), and Acoustic Energy (0.2 / 3). |
+| `Initial_configuration.mp4` | [`videos/initial_hardware_configuration.mp4`](videos/initial_hardware_configuration.mp4) | Video | Comprehensive video walkthrough of edge sensor testbench: Arduino Uno, breadboard, sensors, and power lines. |
+| `intial_configuration of servo motor.mp4` | [`videos/initial_configuration_servo_motor.mp4`](videos/initial_configuration_servo_motor.mp4) | Video | Close-up video of SG90 servo motor mounting, hardware horn attachment, and PWM signal routing. |
+| `sensor_values_showing in serial moniter.mp4` | [`videos/sensor_values_showing_in_serial_monitor.mp4`](videos/sensor_values_showing_in_serial_monitor.mp4) | Video | Arduino IDE Serial Monitor capturing real-time CSV telemetry packets emitted at 115200 baud. |
+| `serial moniter showing the values of the sensors from the servomotor.mp4` | [`videos/serial_monitor_servo_sensor_stream.mp4`](videos/serial_monitor_servo_sensor_stream.mp4) | Video | 52-second high-resolution capture logging continuous multi-sensor telemetry during active servo motion cycles. |
+| `values_showing.mp4` | [`videos/values_showing.mp4`](videos/values_showing.mp4) | Video | Close-up video verifying rapid numerical updates of voltage, current, and accelerometer channels. |
+| `video_showing_sensorvalues_stepper_motor.mp4` | [`videos/servo_motion_and_sensorvalues_demonstration.mp4`](videos/servo_motion_and_sensorvalues_demonstration.mp4) | Video | Video demonstrating SG90 servo motor rotation and synchronized sensor logging *(Note: camera file was labelled 'stepper_motor', but actual physical hardware shown is the TowerPro SG90 micro-servo motor)*. |
+
+---
+
+## 6. Visual Evidence & Extracted Keyframes
+
+### Hardware Setup & Development Bench:
+- **Developer at Hardware Testbench (Photo 1):**  
+  ![Developer Bench Photo 1](screenshots/me_working_photo.jpeg)  
+  *Figure 1.1: Physical hardware setup with Arduino Uno, sensor breakout board, and USB host connection.*
+
+- **Developer Reviewing Telemetry (Photo 2):**  
+  ![Developer Bench Photo 2](screenshots/me_working_photo2.jpeg)  
+  *Figure 1.2: Host terminal monitoring during sensor calibration run.*
+
+- **Initial Hardware Breadboard Configuration (Extracted Keyframe):**  
+  ![Initial Hardware Configuration](screenshots/initial_hardware_configuration_frame.png)  
+  *Figure 1.3: Keyframe from [`videos/initial_hardware_configuration.mp4`](videos/initial_hardware_configuration.mp4) detailing ACS712, 0-25V divider, MAX9814, and MPU6050 wiring.*
+
+- **SG90 Servo Actuator Mounting & Linkage (Extracted Keyframe):**  
+  ![SG90 Servo Setup](screenshots/servo_motor_mounting_and_wiring_frame.png)  
+  *Figure 1.4: Keyframe from [`videos/initial_configuration_servo_motor.mp4`](videos/initial_configuration_servo_motor.mp4) displaying the mechanical test arm on the SG90 servo.*
+
+### Real-Time Ingestion & Serial Telemetry:
+- **Terminal Console Output (Capture 1):**  
+  ![Terminal Console Capture 1](screenshots/sensor_values_shown_in_terminal.jpeg)  
+  *Figure 1.5: Direct terminal display showing formatted CSV telemetry frames received at 10 Hz.*
+
+- **Terminal Console Output (Capture 2):**  
+  ![Terminal Console Capture 2](screenshots/sensor_values_shown_in_terminall.jpeg)  
+  *Figure 1.6: Continuous real-time ingestion log validating packet sequence ordering and integrity.*
+
+- **Arduino IDE Serial Monitor Telemetry Stream:**  
+  ![Serial Monitor Stream](screenshots/serial_monitor_streaming_frame.png)  
+  *Figure 1.7: Keyframe from [`videos/sensor_values_showing_in_serial_monitor.mp4`](videos/sensor_values_showing_in_serial_monitor.mp4) verifying 115200 baud transmission.*
+
+- **High-Resolution Serial Monitor Telemetry (52s Continuous Run):**  
+  ![Detailed Serial Monitor Stream](screenshots/serial_monitor_servo_sensor_stream_frame.png)  
+  *Figure 1.8: Keyframe from [`videos/serial_monitor_servo_sensor_stream.mp4`](videos/serial_monitor_servo_sensor_stream.mp4) showing multi-angle transitions.*
+
+- **Live Dynamic Telemetry Value Updates:**  
+  ![Dynamic Telemetry Values](screenshots/telemetry_values_live_stream_frame.png)  
+  *Figure 1.9: Keyframe from [`videos/values_showing.mp4`](videos/values_showing.mp4) displaying real-time ADC conversion values.*
+
+- **SG90 Servo Angular Rotation & Sensor Logging:**  
+  ![SG90 Servo Motion](screenshots/servo_motion_and_sensorvalues_frame.png)  
+  *Figure 1.10: Keyframe from [`videos/servo_motion_and_sensorvalues_demonstration.mp4`](videos/servo_motion_and_sensorvalues_demonstration.mp4) demonstrating SG90 servo rotation under active telemetry logging.*
+
+### Live Dashboard & Synthesized Waveforms:
+- **Live System Telemetry Dashboard:**  
+  ![Dashboard Live Telemetry](screenshots/dashboard_live_telemetry.jpeg)  
+  *Figure 1.11: Web monitoring interface presenting real-time sensor gauges, instantaneous electrical draw, acoustic metrics, and operational status.*
+
+- **Multi-Sensor Waveform Synchronous Capture:**  
+  ![Sensor Waveforms Plot](screenshots/sensor_waveforms_plot.png)  
+  *Figure 1.12: Synchronous time-series waveforms across Commanded Angle, Current (A), Voltage (V), 3-Axis Accelerometer, and Microphone Acoustic Energy.*
+
 - **Raw Serial Telemetry Stream Log:**  
   [`logs/serial_telemetry_raw_capture.log`](logs/serial_telemetry_raw_capture.log)  
   *Unedited capture of 40 consecutive 10-field CSV records received over 115200 baud serial.*
+
 - **Baseline Telemetry Dataset Sample:**  
   [`datasets/baseline_telemetry_sample.csv`](datasets/baseline_telemetry_sample.csv)  
   *Captured telemetry dataset matching standardized column schema.*
 
 ---
 
-## 6. Test Procedures
+## 7. Test Procedures
 1. **Automated Parsing Verification:**  
    Execute unit tests verifying standard 10-column, 8-column, and 12-column legacy telemetry parser handling:
    ```bash
@@ -70,7 +140,7 @@ Every 100ms (10 Hz), the Arduino emits one standardized line terminated by `\r\n
 
 ---
 
-## 7. Actual Results
+## 8. Actual Results
 - **Automated Tests:** 4/4 sensor acquisition unit and integration tests passed (`tests/test_sensor_data.py`).
 - **Telemetry Throughput:** Sustained 10.0 Hz streaming rate (100.2ms mean inter-packet interval) over USB serial.
 - **Packet Drop Rate:** 0 dropped packets during clean continuous serial operation; 100% rejection of injected corrupted frames.
@@ -79,14 +149,9 @@ Every 100ms (10 Hz), the Arduino emits one standardized line terminated by `\r\n
 
 ---
 
-## 8. Verification Status
+## 9. Verification Status
 🟢 **FULLY VERIFIED AND VALIDATED**
+- Complete hardware setup and sensor acquisition validated through photos, 6 demonstration videos, extracted keyframes, raw serial logs, and automated tests.
 - Firmware compiled and verified on Arduino Uno R3.
 - Ingestion engine verified on Raspberry Pi 5 with real recorded datasets and SQLite database persistence.
 - Zero reliance on external DHT11 sensors (strictly excluded as per specification).
-
----
-
-## 9. Remaining Limitations
-- Serial baud rate is fixed at 115200 baud; baud rates below 57600 baud can cause transmission buffer overrun at 10 Hz rates with full 10-field CSV strings.
-- ACS712 Hall-effect sensor is sensitive to external stray magnetic fields (e.g., placing high-power transformers or unshielded speakers near pin A0 can induce small DC baseline shifts). Zero-current calibration at boot mitigates initial quiescent offset.

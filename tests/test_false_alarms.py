@@ -203,3 +203,4 @@ class TestFalseAlarmsAndThresholds:
         assert fn == 0, f"Observed {fn} missed anomalies"
         assert far == 0.0
         assert accuracy == 1.0
+

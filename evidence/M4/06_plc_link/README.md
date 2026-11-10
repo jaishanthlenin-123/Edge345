@@ -91,3 +91,4 @@ The test verifies:
 1. **Physical Ethernet Interconnect:** Connect an industrial Cat6 RJ45 patch cable between Raspberry Pi 5 `eth0` port and the PLC Ethernet/PROFINET port.
 2. **Static IP Configuration:** Assign static IPs on the same subnet (e.g., Raspberry Pi: `192.168.1.100`, PLC: `192.168.1.10`).
 3. **PLC Ladder Logic / Function Block Setup:** In Siemens TIA Portal or Schneider EcoStruxure, instantiate the standard `MB_CLIENT` block targeting `192.168.1.100` on Port 5020 (or 502 with root privileges).
+

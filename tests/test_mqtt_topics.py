@@ -149,3 +149,4 @@ class TestMQTTTopicStructure:
         assert MQTT_TOPICS["voltage"] in published_topics
         assert MQTT_TOPICS["audio"] in published_topics
         assert MQTT_TOPICS["status"] in published_topics
+

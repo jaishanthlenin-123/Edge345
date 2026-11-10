@@ -96,3 +96,4 @@ class TestSensorDataAcquisition:
         # Check sequence continuity
         seqs = [int(r["sequence"]) for r in rows]
         assert seqs == sorted(seqs), "Sequence numbers must be monotonically non-decreasing"
+
